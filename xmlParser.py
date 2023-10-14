@@ -12,13 +12,15 @@ import os,sys
 import xml.etree.ElementTree as ET
 
 
-def read_file():
-    pass
+def read_file(filepath):
+    try:
+        if not os.path.isfile(filepath):
+            raise FileNotFoundError(f"The specified file is not found: {filepath}")
+        return filepath
+    except FileNotFoundError as e:
+        print(f"An exception occured while trying to find the file: {type(e).__name__} : Error message - {e}")
 def parse_XML(xml_file):
     try:
-        print("**********************************************************************************")
-        print("**************** ----Parsing XML file---- ****************************************")
-        print("**********************************************************************************")
         tree = ET.parse(xml_file)
         root = tree.getroot()
         products = []
@@ -31,7 +33,7 @@ def parse_XML(xml_file):
             })
         return products
     except Exception as e:
-        print(f"Error parsing the provided XML file: {type(e).__name__}")
+        print(f"Error parsing the provided XML file: {type(e).__name__} : Error message - {e}")
         return []
 
 
@@ -90,5 +92,7 @@ def menu():
 
 if __name__ == '__main__':
 #    menu()
-   test= parse_XML('./sampleXML.xml')
+   filepath = './sampleXML.xml'
+   xml_file = read_file(filepath)
+   test= parse_XML(xml_file)
    print(test)
