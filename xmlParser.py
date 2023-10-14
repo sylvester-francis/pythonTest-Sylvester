@@ -37,8 +37,23 @@ def parse_XML(xml_file):
         return []
 
 
-def increase_price():
-    pass
+def increase_price(filepath):
+    try:
+        xmlfile = read_file(filepath)
+        products = parse_XML(xmlfile)
+        category = input("Enter the category of the products to increase the price of: ")
+        percentage = float(input("Enter the percentage to increase the price by: "))
+        for product in products:
+            if product['category'] == category:
+                product['price'] += product['price'] * percentage / 100
+        save_changes(products)
+    except KeyError:
+        print(f"Error: Category {category} not found.")
+    except ValueError:
+        print(f"Error: Percentage must be a number.")
+    except Exception as e:
+        print(f"Exception occured in increasing price")
+
 
 def rename_category():
     pass
@@ -46,7 +61,7 @@ def rename_category():
 def remove_products():
     pass
 
-def save_changes():
+def save_changes(products):
     pass
 
 def generate_reports():
@@ -91,8 +106,5 @@ def menu():
     menu()    
 
 if __name__ == '__main__':
-#    menu()
-   filepath = './sampleXML.xml'
-   xml_file = read_file(filepath)
-   test= parse_XML(xml_file)
-   print(test)
+    menu()
+   
