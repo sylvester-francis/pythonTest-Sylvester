@@ -11,6 +11,13 @@ last modified date: 10/13/2023
 import argparse
 import os,sys
 import xml.etree.ElementTree as ET
+from prettytable import PrettyTable
+
+
+# Global variables for parsing arguments
+parser = argparse.ArgumentParser(description="XML Product Data parser")
+parser.add_argument('filepath', type=str, help="Please provide the path to the file containing the xml product data")
+args = parser.parse_args()
 
 
 def read_file(filepath):
@@ -51,33 +58,64 @@ def increase_price(products):
         percentage = float(input("Enter the percentage to increase the price by: "))
         for product in products:
             if product['category'] == user_category:
-                product['price'] += product['price'] * percentage / 100
+                product['price'] = round(product['price']+ (product['price'] * percentage / 100),2)
+
         save_changes(products)
     except ValueError:
         print(f"Error: Percentage must be a number.")
     except Exception as e:
         print(f"An exception occured while trying to increase the price: {type(e).__name__} : Error message - {e}")    
 
-def rename_category():
+def rename_category(products):
     pass
 
-def remove_products():
+def remove_products(products):
     pass
 
 def save_changes(products):
-    pass
+    root = ET.Element('products')
+    for product in products:    
+        product_elem = ET.Element('product', category=product['category'])
+        name_elem = ET.Element('name')
+        name_elem.text = product['name']
+        price_elem = ET.Element('price')
+        price_elem.text = str(product['price'])
+        rating_elem = ET.Element('rating')
+        rating_elem.text = str(product['rating'])
+        product_elem.append(name_elem)
+        product_elem.append(price_elem)
+        product_elem.append(rating_elem)
+        root.append(product_elem)
+    tree = ET.ElementTree(root)
+    try:
+        tree.write(args.filepath)
+    except ET.ParseError as e:
+        print(f"An exception occured while trying to save the file: {type(e).__name__} : Error message - {e}")
 
-def generate_reports():
-    pass
+
+def generate_reports(products):
+    total_products_by_category = {}
+    total_price_by_category = {}
+    for product in products:
+        category = product['category']
+        if category not in total_products_by_category:
+            total_products_by_category[category] = 0
+            total_price_by_category[category] = 0
+        total_products_by_category[category] += 1
+        total_price_by_category[category] += product['price']
+    table = PrettyTable()
+    table.field_names = ["Category", "Total Products", "Total Price"]
+    for category in total_products_by_category:
+        table.add_row([category, total_products_by_category[category], total_price_by_category[category]])
+    print(table)
+
+    
 def quit(products):
     save_changes(products)
     sys.exit(1)
     
 
 def menu():
-    parser = argparse.ArgumentParser(description="XML Product Data parser")
-    parser.add_argument('filepath', type=str, help="Please provide the path to the file containing the xml product data")
-    args = parser.parse_args()
     xml_file = read_file(args.filepath)
     products = parse_XML(xml_file)
     menu_options = {
