@@ -72,10 +72,9 @@ def increase_price(products):
             if product['category'] == user_category:
                 product['price'] = round(product['price']+ (product['price'] * percentage / 100),2)
         return products
-    except ValueError:
-        print(f"Error: Percentage must be a number.")
     except Exception as e:
-        print(f"An exception occured while trying to increase the price: {type(e).__name__} : Error message - {e}")    
+        print(f"An exception occured while trying to increase the price: {type(e).__name__} : Error message - {e}")
+        return []    
 
 def rename_category(products):
     try:
@@ -93,10 +92,10 @@ def rename_category(products):
         for product in products:
             if product['category'] == user_category:
                 product['category'] = new_user_category
-        save_changes(products)
+        return products
     except Exception as e:
         print(f"An exception occured while trying to rename the category: {type(e).__name__} : Error message - {e}")    
-
+        return []
 
 def remove_products(products):
     try:
@@ -106,10 +105,10 @@ def remove_products(products):
         for product in products:
             if product['rating'] < rating:
                 products.remove(product)
-        save_changes(products)
+        return products
     except ValueError as e:
         print(f"An exception occured while trying to remove the category: {type(e).__name__} : Error message - The value must be a number")    
-
+        return []
 
 
 def save_changes(products):
@@ -188,13 +187,24 @@ def menu():
     if choice == "1":
         print("Increasing prices")
         updated_products = increase_price(products)
-        save_changes(updated_products)
+        if updated_products:
+            save_changes(updated_products)
+        else:
+            save_changes(products)
     elif choice == "2":
         print("Renaming categories")
-        rename_category(products)
+        renamed_products =rename_category(products)
+        if renamed_products:
+            save_changes(renamed_products)
+        else:
+            save_changes(products)
     elif choice == "3":
         print("Removing products based on rating")
-        remove_products(products)
+        products_after_removal = remove_products(products)
+        if products_after_removal:
+            save_changes(products_after_removal)
+        else:
+            save_changes(products)
     elif choice == "4":
         print("Generating reports")
         generate_reports(products)

@@ -35,15 +35,16 @@ def test_read_file(filepath):
     result = read_file(filepath)
     assert result == filepath
 
-# parse_XML tests
+
+# Testing the parse_XML functionality
 def test_parse_xml(filepath):
     result= parse_XML(filepath)
     expectedResult = [{'category': 'Electronics', 'name': 'Iphone 12 Pro', 'price': 599.99, 'rating': 4.5}, {'category': 'Books', 'name': 'Python for Beginners', 'price': 29.99, 'rating': 4.0}, {'category': 'Electronics', 'name': 'Ipod', 'price': 49.99, 'rating': 3.9}]
     assert expectedResult == result
 
 
-
-def test_increase_price(monkeypatch):
+# Testing the increase price functionality
+def test_price_increase(monkeypatch):
     products = [
         {'category': 'Electronics', 'name': 'Laptop', 'price': 999.99, 'rating': 4.2},
         {'category': 'Books', 'name': 'Python Basics', 'price': 29.99, 'rating': 4.5},
@@ -51,10 +52,33 @@ def test_increase_price(monkeypatch):
     ]
     inputs = iter(['Electronics', '5'])
     monkeypatch.setattr('builtins.input', lambda prompt: next(inputs))
+    updatedproducts=increase_price(products)
+    assert updatedproducts[0]['price'] == pytest.approx(1049.99, rel=1e-2) 
+    assert updatedproducts[1]['price'] == 29.99  
+    assert updatedproducts[2]['price'] == pytest.approx(524.99, rel=1e-2)  
+
+
+def test_increase_price_output_params(monkeypatch):
+    # This test scenario checks if the return values are a list of dictionaries
+    products = [{'category':'Electronics','name':'laptop','price':876,'rating':4}]
+    inputs = iter(['Electronics', '3'])
+    monkeypatch.setattr('builtins.input', lambda prompt: next(inputs))
+    updatedproducts =increase_price(products)
+    assert isinstance(updatedproducts, list)
+    assert isinstance(updatedproducts[0],dict)
+    
+def test_increase_price_Exception(monkeypatch, capsys):
+    # This test scenario checks if provided a non-numeric value for user input "Percentage" - The code correctly raises an Exception
+    products = [
+        {'category': 'Electronics', 'name': 'Laptop', 'price': 999.99, 'rating': 4.2},
+        {'category': 'Books', 'name': 'Python Basics', 'price': 29.99, 'rating': 4.5},
+        {'category': 'Electronics', 'name': 'Smartphone', 'price': 499.99, 'rating': 4.0},
+    ]
+    inputs = iter(['Electronics', 'abc'])
+    monkeypatch.setattr('builtins.input', lambda prompt: next(inputs))
     increase_price(products)
-    assert products[0]['price'] == pytest.approx(1049.99, rel=1e-2) 
-    assert products[1]['price'] == 29.99  
-    assert products[2]['price'] == pytest.approx(524.99, rel=1e-2)  
+    captured = capsys.readouterr()
+    assert "An exception occured while trying to increase the price: ValueError : Error message - could not convert string to float: 'abc'" in captured.out   
 
 
 
