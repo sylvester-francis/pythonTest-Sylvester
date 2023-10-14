@@ -11,7 +11,10 @@ last modified date: 10/13/2023
 import argparse
 import os,sys
 import xml.etree.ElementTree as ET
-from prettytable import PrettyTable
+try:
+    from prettytable import PrettyTable
+except ImportError as e:
+    print("Please install 'prettytable' module using pip")
 
 
 # Global variables for parsing arguments
@@ -59,7 +62,6 @@ def increase_price(products):
         for product in products:
             if product['category'] == user_category:
                 product['price'] = round(product['price']+ (product['price'] * percentage / 100),2)
-
         save_changes(products)
     except ValueError:
         print(f"Error: Percentage must be a number.")
@@ -67,7 +69,25 @@ def increase_price(products):
         print(f"An exception occured while trying to increase the price: {type(e).__name__} : Error message - {e}")    
 
 def rename_category(products):
-    pass
+    try:
+        existing_categories = list(set(existing_category['category'] for existing_category in products))
+        print("The following are the categories of products in the inventory")
+        for index,category in enumerate(existing_categories):
+            print(f'{index+1}:{category}')    
+        user_category = input("Enter the category to be renamed: ")
+        if user_category not in existing_categories:
+            print("Category does not exist")
+            return
+        new_user_category= input("Enter the name you want to give this category:")
+        if not new_user_category:
+            raise ValueError("New Category cannot be empty string")
+        for product in products:
+            if product['category'] == user_category:
+                product['category'] = new_user_category
+        save_changes(products)
+    except Exception as e:
+        print(f"An exception occured while trying to rename the category: {type(e).__name__} : Error message - {e}")    
+
 
 def remove_products(products):
     pass
@@ -94,20 +114,26 @@ def save_changes(products):
 
 
 def generate_reports(products):
-    total_products_by_category = {}
-    total_price_by_category = {}
-    for product in products:
-        category = product['category']
-        if category not in total_products_by_category:
-            total_products_by_category[category] = 0
-            total_price_by_category[category] = 0
-        total_products_by_category[category] += 1
-        total_price_by_category[category] += product['price']
-    table = PrettyTable()
-    table.field_names = ["Category", "Total Products", "Total Price"]
-    for category in total_products_by_category:
-        table.add_row([category, total_products_by_category[category], total_price_by_category[category]])
-    print(table)
+    try:
+        if not products:
+            print("No products found in inventory")
+            return
+        total_products_by_category = {}
+        total_price_by_category = {}
+        for product in products:
+            category = product['category']
+            if category not in total_products_by_category:
+                total_products_by_category[category] = 0
+                total_price_by_category[category] = 0
+            total_products_by_category[category] += 1
+            total_price_by_category[category] += product['price']
+        table = PrettyTable()
+        table.field_names = ["Category", "Total Products by Category", "Total Price by Category"]
+        for category in total_products_by_category:
+            table.add_row([category, total_products_by_category[category], total_price_by_category[category]])
+        print(table)
+    except Exception as e:
+        print(f"An exception occured while trying to generate reports: {type(e).__name__} : Error message - {e}")
 
     
 def quit(products):
