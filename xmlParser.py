@@ -9,9 +9,32 @@ last modified date: 10/13/2023
 '''
 #imports 
 import os,sys
+import xml.etree.ElementTree as ET
 
-def parse_XML():
-    print("Parse XML function called")
+
+def read_file():
+    pass
+def parse_XML(xml_file):
+    try:
+        print("**********************************************************************************")
+        print("**************** ----Parsing XML file---- ****************************************")
+        print("**********************************************************************************")
+        tree = ET.parse(xml_file)
+        root = tree.getroot()
+        products = []
+        for product in root.findall('product'):
+            products.append({
+                'category' : product.get('category'),
+                'name': product.find('name').text,
+                'price':float(product.find('price').text),
+                'rating':float(product.find('rating').text)
+            })
+        return products
+    except Exception as e:
+        print(f"Error parsing the provided XML file: {type(e).__name__}")
+        return []
+
+
 def increase_price():
     pass
 
@@ -66,4 +89,6 @@ def menu():
     menu()    
 
 if __name__ == '__main__':
-    menu()
+#    menu()
+   test= parse_XML('./sampleXML.xml')
+   print(test)
