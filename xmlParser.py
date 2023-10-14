@@ -8,8 +8,9 @@ Last modified by: Sylvester Ranjith Francis
 last modified date: 10/13/2023
 '''
 
+
 def parse_XML():
-    pass
+    print("Parse XML function called")
 def increase_price():
     pass
 
@@ -24,9 +25,26 @@ def save_changes():
 
 def generate_reports():
     pass
+def quit():
+    pass
 
 def menu():
-    pass
+    menu_options = {
+        "1":"Increase prices",
+        "2":"Rename categories" ,
+        "3":"Remove products" , 
+        "4":"Generate report",
+        "5":"Exit"
+    }
+    print("**********************************************************************************")
+    print("Welcome user")
+    print("**********************************************************************************")
+    print("Please select an option")
+    for key,value in menu_options.items():
+        print(f"{key}:{value}")
+    # choice = input(" > ")    
+
+
 
 if __name__ == '__main__':
     menu()
