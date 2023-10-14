@@ -8,6 +8,7 @@ Last modified by: Sylvester Ranjith Francis
 last modified date: 10/13/2023
 '''
 #imports 
+import argparse
 import os,sys
 import xml.etree.ElementTree as ET
 
@@ -37,23 +38,25 @@ def parse_XML(xml_file):
         return []
 
 
-def increase_price(filepath):
+def increase_price(products):
     try:
-        xmlfile = read_file(filepath)
-        products = parse_XML(xmlfile)
-        category = input("Enter the category of the products to increase the price of: ")
+        existing_categories = list(set(existing_category['category'] for existing_category in products))
+        print("The following are the categories of products in the inventory")
+        for index,category in enumerate(existing_categories):
+            print(f'{index+1}:{category}')    
+        user_category = input("Enter the category of the products to increase the price of: ")
+        if user_category not in existing_categories:
+            print("Category does not exist")
+            return
         percentage = float(input("Enter the percentage to increase the price by: "))
         for product in products:
-            if product['category'] == category:
+            if product['category'] == user_category:
                 product['price'] += product['price'] * percentage / 100
         save_changes(products)
-    except KeyError:
-        print(f"Error: Category {category} not found.")
     except ValueError:
         print(f"Error: Percentage must be a number.")
     except Exception as e:
-        print(f"Exception occured in increasing price")
-
+        print(f"An exception occured while trying to increase the price: {type(e).__name__} : Error message - {e}")    
 
 def rename_category():
     pass
@@ -66,22 +69,29 @@ def save_changes(products):
 
 def generate_reports():
     pass
-def quit():
+def quit(products):
+    save_changes(products)
     sys.exit(1)
     
 
 def menu():
+    parser = argparse.ArgumentParser(description="XML Product Data parser")
+    parser.add_argument('filepath', type=str, help="Please provide the path to the file containing the xml product data")
+    args = parser.parse_args()
+    xml_file = read_file(args.filepath)
+    products = parse_XML(xml_file)
     menu_options = {
         "1":"Increase prices",
         "2":"Rename categories" ,
         "3":"Remove products" , 
         "4":"Generate report",
-        "5":"Exit"
+        "5":"Save the file",
+        "6":"Exit"
     }
     print("**********************************************************************************")
     print("Welcome user")
     print("**********************************************************************************")
-    print("Please select an option (Enter a number 1-5)")
+    print("Please select an option (Enter a number 1-6)")
     for key,value in menu_options.items():
         print(f"{key}:{value}")
     choice = input(">  ")   
@@ -90,21 +100,23 @@ def menu():
         return
     if choice == "1":
         print("Increasing prices")
-        increase_price()
+        increase_price(products)
     elif choice == "2":
         print("Renaming categories")
-        rename_category()
+        rename_category(products)
     elif choice == "3":
         print("Removing products based on rating")
-        remove_products()
+        remove_products(products)
     elif choice == "4":
         print("Generating reports")
-        generate_reports()
+        generate_reports(products)
     elif choice == "5":
+        print("Saving the file")
+        save_changes(products)    
+    elif choice == "6":
         print("Exiting... Goodbye")
-        quit()
+        quit(products)
     menu()    
 
 if __name__ == '__main__':
     menu()
-   
