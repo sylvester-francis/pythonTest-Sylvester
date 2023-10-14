@@ -26,6 +26,10 @@ args = parser.parse_args()
 min_rating = 0.0
 max_rating = 5.0
 
+# """Generates a report of the total number of products and the total price of products in each category.
+#     Args:
+#         products (list): The list of products.
+# """
 def read_file(filepath):
     try:
         if not os.path.isfile(filepath):
@@ -67,7 +71,7 @@ def increase_price(products):
         for product in products:
             if product['category'] == user_category:
                 product['price'] = round(product['price']+ (product['price'] * percentage / 100),2)
-        save_changes(products)
+        return products
     except ValueError:
         print(f"Error: Percentage must be a number.")
     except Exception as e:
@@ -183,7 +187,8 @@ def menu():
         return
     if choice == "1":
         print("Increasing prices")
-        increase_price(products)
+        updated_products = increase_price(products)
+        save_changes(updated_products)
     elif choice == "2":
         print("Renaming categories")
         rename_category(products)
