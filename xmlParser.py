@@ -22,6 +22,9 @@ parser = argparse.ArgumentParser(description="XML Product Data parser")
 parser.add_argument('filepath', type=str, help="Please provide the path to the file containing the xml product data")
 args = parser.parse_args()
 
+# Configurable parameters
+min_rating = 0.0
+max_rating = 5.0
 
 def read_file(filepath):
     try:
@@ -30,6 +33,8 @@ def read_file(filepath):
         return filepath
     except FileNotFoundError as e:
         print(f"An exception occured while trying to find the file: {type(e).__name__} : Error message - {e}")
+        return None
+    
 def parse_XML(xml_file):
     try:
         tree = ET.parse(xml_file)
@@ -90,7 +95,18 @@ def rename_category(products):
 
 
 def remove_products(products):
-    pass
+    try:
+        rating = float(input("Enter the rating below which all the products need to be removed:"))
+        if ((rating <= min_rating) or (rating >= max_rating)):
+            raise ValueError(f"Value should be between {min_rating} and {max_rating}")
+        for product in products:
+            if product['rating'] < rating:
+                products.remove(product)
+        save_changes(products)
+    except ValueError as e:
+        print(f"An exception occured while trying to remove the category: {type(e).__name__} : Error message - The value must be a number")    
+
+
 
 def save_changes(products):
     root = ET.Element('products')
@@ -143,6 +159,9 @@ def quit(products):
 
 def menu():
     xml_file = read_file(args.filepath)
+    if not xml_file:
+        print("The specified file path is not found")
+        return
     products = parse_XML(xml_file)
     menu_options = {
         "1":"Increase prices",
