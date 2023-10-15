@@ -11,8 +11,8 @@ last modified date: 10/15/2023
 
 import sys
 # Importing functions from other modules
-from product_manipulation import increase_price, rename_category, remove_products, generate_reports
-from file_operations import save_changes
+from .product_manipulation import increase_price, rename_category, remove_products, generate_reports
+from .file_operations import save_changes
 
 def quit(products):
     # Save changes to the XML file before exiting

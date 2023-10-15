@@ -20,6 +20,9 @@ def return_args():
     args = parser.parse_args()
     # Return the parsed arguments
     return args
+def return_file_path():
+    filePath = './sampleXML.xml'
+    return filePath
 
 # Function to return the minimum and maximum rating values
 def return_min_max_rating():

@@ -13,7 +13,7 @@ import os
 # Importing etree module
 import xml.etree.ElementTree as ET
 # Importing utility functions
-from utility_functions import return_args
+from .utility_functions import return_file_path
 
 
 def read_file(filepath):
@@ -32,7 +32,7 @@ def read_file(filepath):
 
 def save_changes(products):
     # Get command-line arguments
-    args = return_args()
+    filePath = return_file_path()
     # Create the root element for the XML tree
     root = ET.Element('products')
     # Iterate over each product in the list of products and add them to the XML tree
@@ -54,7 +54,7 @@ def save_changes(products):
     # Create an ElementTree with the root element    
     tree = ET.ElementTree(root)
     try:
-        tree.write(args.filepath)
+        tree.write(filePath)
     # Write the XML tree to the specified file
     except ET.ParseError as e:
         # Handle parsing errors
