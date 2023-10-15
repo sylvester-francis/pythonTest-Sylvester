@@ -1,5 +1,5 @@
 '''
-This particular module contains all the file operations that are performed by this application, namely 
+This module contains all the file operations that are performed by this application, namely 
 (1). read_file
 (2). save_changes
 
