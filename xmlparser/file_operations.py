@@ -13,7 +13,7 @@ import os
 # Importing etree module
 import xml.etree.ElementTree as ET
 # Importing utility functions
-from .utility_functions import return_file_path
+from utility_functions import return_file_path
 
 
 def read_file(filepath):

@@ -14,7 +14,7 @@ last modified date: 10/15/2023
 
 from prettytable import PrettyTable 
 # Import utility function for min and max ratings
-from .utility_functions import return_min_max_rating  
+from utility_functions import return_min_max_rating  
 # Get the min and max ratings using the utility function
 min_rating, max_rating = return_min_max_rating()
 

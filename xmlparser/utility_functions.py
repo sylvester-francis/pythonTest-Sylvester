@@ -8,7 +8,8 @@ Date created : 10/15/2023
 Last modified by: Sylvester Ranjith Francis
 last modified date: 10/15/2023
 '''
-import argparse
+import os,argparse
+
 
 # Function to parse command-line arguments and return them
 def return_args():
@@ -21,8 +22,14 @@ def return_args():
     # Return the parsed arguments
     return args
 def return_file_path():
-    filePath = './sampleXML.xml'
-    return filePath
+    # Initialising a variable directory to point to a directory called output at the root of the project
+    directory = '../output'
+    # Initialising output filename
+    filename = 'outputFile.xml'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    filepath = os.path.join(directory, filename)
+    return filepath
 
 # Function to return the minimum and maximum rating values
 def return_min_max_rating():
