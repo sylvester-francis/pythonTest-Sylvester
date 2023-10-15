@@ -7,13 +7,19 @@ Date created : 10/13/2023
 Last modified by: Sylvester Ranjith Francis
 last modified date: 10/13/2023
 '''
+import os,sys 
+# Get the current script's directory
+script_dir = os.path.dirname(os.path.realpath(__file__))
+# Add the relative path to the xmlparser directory to sys.path
+project_path = os.path.join(script_dir, 'xmlparser')
+sys.path.append(project_path)
+
 # Import utility functions
 from utility_functions import return_args
 # Importing functions from other modules
 from file_operations import read_file
 from xml_operations import parse_XML
 from user_interface import menu
-
 
 if __name__ == '__main__':
     # Get arguments passed in command line arguments
