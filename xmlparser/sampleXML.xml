@@ -1,17 +1,17 @@
 <products>
     <product category="Electronics">
         <name>Iphone 12 Pro</name>
-        <price>642.59</price>
+        <price>400</price>
         <rating>4.5</rating>
     </product>
     <product category="Books">
         <name>Python for Beginners</name>
-        <price>29.99</price>
+        <price>10</price>
         <rating>4.0</rating>
     </product>
     <product category="Electronics">
         <name>Ipod</name>
-        <price>53.54</price>
+        <price>50.00</price>
         <rating>3.9</rating>
     </product>
 </products>
