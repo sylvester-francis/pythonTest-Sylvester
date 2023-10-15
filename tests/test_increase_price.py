@@ -1,7 +1,7 @@
 # imports 
 import os
 import pytest
-from xmlParser import increase_price
+from xmlparser.xmlParser import increase_price
 
 # Testing the increase price functionality
 def test_price_increase_valid(monkeypatch):

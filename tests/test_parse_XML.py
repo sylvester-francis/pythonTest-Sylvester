@@ -1,7 +1,7 @@
 # imports 
 import os
 import pytest
-from xmlParser import parse_XML
+from xmlparser.xmlParser import parse_XML
 
 # Testing the parse_XML functionality
 def test_parse_xml_valid(filepath):

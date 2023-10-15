@@ -1,7 +1,7 @@
 # imports 
 import os
 import pytest
-from xmlParser import read_file
+from xmlparser.xmlParser import read_file
 
 # Fixture to hold sample XML data
 @pytest.fixture
