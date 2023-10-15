@@ -1,5 +1,5 @@
 from prettytable import PrettyTable
-from helper import return_min_max_rating
+from utility_functions import return_min_max_rating
 min_rating,max_rating =return_min_max_rating()
 
 def increase_price(products):
