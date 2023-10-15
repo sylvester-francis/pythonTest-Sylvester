@@ -1,4 +1,5 @@
 # imports 
+import os
 import pytest
 from xmlParser import read_file, parse_XML, increase_price, rename_category, remove_products, save_changes, generate_reports, quit
 
@@ -31,10 +32,17 @@ def filepath(xml_data, tmp_path):
         f.write(xml_data)
     return file_path
 
+# Testing the read_file functionality
 def test_read_file(filepath):
+    # This test scenario is used to validate the functionality of the read_file function by providing a valid filepath
     result = read_file(filepath)
     assert result == filepath
 
+def test_read_file_returns_none():
+    # This test scenario is used to validate the functionality of the read_file function by providing a empty filepath
+    filepath = ""
+    result = read_file(filepath)
+    assert result is None
 
 # Testing the parse_XML functionality
 def test_parse_xml(filepath):
@@ -87,6 +95,7 @@ def test_parse_non_numeric_rating():
         fp.write(nonNumericRatingStr)
     result = parse_XML('./testFile.xml')
     assert result == []
+
 def test_parse_non_numeric_price():
     # This test scenario is used to validate how the parse_XML function behaves by providing an xml with non-numeric price
     xml_content = """

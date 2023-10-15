@@ -1,9 +1,0 @@
-
-    <products>
-        <product category="Electronics">
-            <name>Laptop</name>
-            <price>Invalidprice</price>
-            <rating>4.2</rating>
-        </product>
-    </products>
-    

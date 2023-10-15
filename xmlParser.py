@@ -26,16 +26,12 @@ args = parser.parse_args()
 min_rating = 0.0
 max_rating = 5.0
 
-# """Generates a report of the total number of products and the total price of products in each category.
-#     Args:
-#         products (list): The list of products.
-# """
 def read_file(filepath):
     try:
         if not os.path.isfile(filepath):
             raise FileNotFoundError(f"The specified file is not found: {filepath}")
         return filepath
-    except FileNotFoundError as e:
+    except Exception as e:
         print(f"An exception occured while trying to find the file: {type(e).__name__} : Error message - {e}")
         return None
     
