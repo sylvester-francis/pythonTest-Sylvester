@@ -22,6 +22,10 @@ Navigate to the `parser` directory and run:
 ```bash
 python main.py <filename.xml>
 ```
+### Example usage
+```bash
+python main.py ../sampleXML.xml
+```
 ## Description
 
 This module (`main.py`) serves as the entry point for the XML parser tool. It performs the following steps:

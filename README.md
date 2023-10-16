@@ -46,3 +46,93 @@ Create a Python tool that can parse an XML file containing product data, manipul
   </product>
 </products>
 ```
+
+
+## Refer:
+Refer the documentation folder for additional information
+
+## Directory structure
+.
+├── LICENSE
+├── README.md
+├── documentation
+│   ├── file_operations.md
+│   ├── main.md
+│   ├── menu.md
+│   ├── product_manipulation.md
+│   ├── utility_functions.md
+│   └── xml_operations.md
+├── output
+│   └── outputFile.xml
+├── requirements.txt
+└── xmlparser
+    ├── output
+    │   └── outputFile.xml
+    ├── parser
+    │   ├── __init__.py
+    │   ├── __pycache__
+    │   │   ├── __init__.cpython-312.pyc
+    │   │   ├── file_operations.cpython-312.pyc
+    │   │   ├── main.cpython-312.pyc
+    │   │   ├── product_manipulation.cpython-312.pyc
+    │   │   ├── user_interface.cpython-312.pyc
+    │   │   ├── utility_functions.cpython-312.pyc
+    │   │   └── xml_operations.cpython-312.pyc
+    │   ├── file_operations.py
+    │   ├── main.py
+    │   ├── product_manipulation.py
+    │   ├── user_interface.py
+    │   ├── utility_functions.py
+    │   └── xml_operations.py
+    ├── sampleXML.xml
+    └── tests
+        ├── __init__.py
+        ├── __pycache__
+        │   ├── __init__.cpython-312.pyc
+        │   ├── test_file_operations.cpython-312-pytest-7.4.2.pyc
+        │   ├── test_main.cpython-312-pytest-7.4.2.pyc
+        │   ├── test_product_manipulation.cpython-312-pytest-7.4.2.pyc
+        │   ├── test_user_interface.cpython-312-pytest-7.4.2.pyc
+        │   ├── test_utility_functions.cpython-312-pytest-7.4.2.pyc
+        │   └── test_xml_operations.cpython-312-pytest-7.4.2.pyc
+        ├── test_file_operations.py
+        ├── test_product_manipulation.py
+        ├── test_user_interface.py
+        ├── test_utility_functions.py
+        └── test_xml_operations.py
+
+## Note
+- To run the pytests navigate to the tests folder and run
+```bash
+PYTHONPATH=parser pytest tests/
+```
+- To run test coverage navigate to xmlparser directory and run 
+```bash
+PYTHONPATH=parser pytest --cov=parser tests/
+``` 
+- A requirements.txt file is provided to be used to install dependencies for the project
+
+### Usage
+Navigate to the `parser` directory and run:
+
+```bash
+python main.py <filename.xml>
+```
+### Example usage
+```bash
+python main.py ../sampleXML.xml
+```
+### Screenshots
+![Increase Prices](screenshots/increase_prices.png)
+
+![Rename Categories](screenshots/renaming_categories.png)
+
+![Removing Products](screenshots/remove_product.png)
+
+![Generate Reports](screenshots/generate_report.png)
+
+![Save Changes](screenshots/save_changes.png)
+
+![Quit](screenshots/exit.png)
+
+

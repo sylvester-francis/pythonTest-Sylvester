@@ -28,6 +28,7 @@ Last Modified Date
    - Iterate over each product in the list of products and add them to the XML tree.
    - Create an ElementTree with the root element.
    - Write the XML tree to the specified file.
+   - Output file is stored in ./output/ with the file name outputFile.xml
 
 ## Functions Imported
 - **return_file_path()** from `utility_functions`
